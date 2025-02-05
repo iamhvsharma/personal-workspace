@@ -127,7 +127,7 @@ export function Dashboard() {
               <Button variant="outline" icon={User}>
                 Profile
               </Button>
-              <Button variant="secondary" icon={LogOut}>
+              <Button variant="outline" icon={LogOut}>
                 Sign out
               </Button>
             </div>
@@ -145,7 +145,7 @@ export function Dashboard() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
-              icon={Search}
+              
             />
           </div>
           <div className="flex space-x-4">
@@ -181,7 +181,7 @@ export function Dashboard() {
           {folders.map((folder) => (
             <div
               key={folder.id}
-              className={`bg-white dark:bg-[#09090b] dark p-6 rounded-lg shadow-sm border-2 cursor-pointer
+              className={`bg-white  dark:bg-[#09090b] p-6 rounded-lg shadow-sm border-2 cursor-pointer
                 ${selectedFolderId === folder.id ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'}
                 hover:border-blue-500 transition-colors`}
               onClick={() => setSelectedFolderId(folder.id)}
