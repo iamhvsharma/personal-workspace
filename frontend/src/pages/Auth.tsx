@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookMarked, Mail, Lock } from 'lucide-react';
+import { BookMarked } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
-import { ThemeToggle } from '../components/ThemeToggle';
 
 type AuthMode = 'login' | 'signup';
 
