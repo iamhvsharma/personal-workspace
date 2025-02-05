@@ -111,9 +111,9 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#09090b]">
       {/* Header */}
-      <header className="border-b border-gray-200 dark:border-black bg-white dark:bg-black">
+      <header className="border-b border-gray-200 dark:border-black bg-white dark:bg-[#09090b]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -161,7 +161,7 @@ export function Dashboard() {
         {/* Folders */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div
-            className={`bg-white dark:bg-black p-6 rounded-lg shadow-sm border-2 cursor-pointer
+            className={`bg-white dark:bg-[#09090b] p-6 rounded-lg shadow-sm border-2 cursor-pointer
               ${!selectedFolderId ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'}
               hover:border-blue-500 transition-colors`}
             onClick={() => setSelectedFolderId(null)}
@@ -181,7 +181,7 @@ export function Dashboard() {
           {folders.map((folder) => (
             <div
               key={folder.id}
-              className={`bg-white dark:bg-black p-6 rounded-lg shadow-sm border-2 cursor-pointer
+              className={`bg-white dark:bg-[#09090b] dark p-6 rounded-lg shadow-sm border-2 cursor-pointer
                 ${selectedFolderId === folder.id ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'}
                 hover:border-blue-500 transition-colors`}
               onClick={() => setSelectedFolderId(folder.id)}
@@ -202,7 +202,7 @@ export function Dashboard() {
         </div>
 
         {/* Links List */}
-        <div className="bg-white dark:bg-black rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[#09090b] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {filteredLinks.map((link) => (
               <div
@@ -255,7 +255,7 @@ export function Dashboard() {
       {/* Add Link Modal */}
       {isAddLinkModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-black rounded-lg max-w-md w-full p-6">
+          <div className="bg-white dark:bg-[#09090b] rounded-lg max-w-md w-full p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 Add New Link
@@ -295,7 +295,7 @@ export function Dashboard() {
                   onChange={(e) => setNewLink({ ...newLink, folderId: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2
                     text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 
-                    focus:ring-blue-500 dark:border-gray-600 dark:bg-black 
+                    focus:ring-blue-500 dark:border-gray-600 dark:bg-[#09090b] 
                     dark:text-gray-100"
                   required
                 >
@@ -327,7 +327,7 @@ export function Dashboard() {
       {/* Add Folder Modal */}
       {isAddFolderModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-black rounded-lg max-w-md w-full p-6">
+          <div className="bg-white dark:bg-[#09090b] rounded-lg max-w-md w-full p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 Create New Folder

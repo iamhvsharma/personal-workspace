@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 type InputProps = {
   label?: string;
   error?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export function Input({ label, error, className = '', ...props }: InputProps) {
+export function Input({ label, error, className = "", ...props }: InputProps) {
   return (
     <div className="space-y-1">
       {label && (
@@ -18,7 +18,7 @@ export function Input({ label, error, className = '', ...props }: InputProps) {
           w-full rounded-lg border border-gray-300 bg-white px-4 py-2
           text-gray-900 placeholder-gray-500 focus:border-blue-500 
           focus:outline-none focus:ring-1 focus:ring-blue-500
-          dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100
+          dark:border-gray-600 dark:bg-[#09090b] dark:text-gray-100
           dark:placeholder-gray-400 dark:focus:border-blue-400
           dark:focus:ring-blue-400 ${className}
         `}
