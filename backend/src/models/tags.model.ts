@@ -5,7 +5,7 @@ const tagsSchema = new Schema({
     type: String,
     required: true,
   },
-});
+}, { timestamps: true });
 
 const Tag = mongoose.model("Tag", tagsSchema);
 

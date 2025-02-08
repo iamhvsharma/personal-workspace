@@ -21,7 +21,7 @@ const contentSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-});
+}, { timestamps: true });
 
 const Content = mongoose.model("Content", contentSchema);
 
