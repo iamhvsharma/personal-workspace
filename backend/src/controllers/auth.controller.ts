@@ -1,31 +1,33 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { z } from "zod";
+import {
+  LoginInput,
+  loginSchema,
+  SignupInput,
+  signupSchema,
+} from "../types/zodSchemas";
 
-export const signupHandler = async (req: Request, res: Response) => {
-  
-  const { username, email, password } = req.body;
-
+export const signupHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   // Zod validation here
-  const requiredBody = z.object({
-    username: z.string().min(5),
-    email: z.string().email(),
-    password: z.string().min(8).max(40),
-  });
+  const result = signupSchema.safeParse(req.body);
 
-  const safeParsedBody = requiredBody.safeParse(req.body);
-
-  if (!safeParsedBody.success) {
-    res.json({
-      msg: "Incorrect Format",
-      error: safeParsedBody.error,
+  if (!result.success) {
+    res.status(400).json({
+      status: "error",
+      message: "Invalid input",
+      errors: result.error.flatten().fieldErrors,
     });
     return;
   }
 
   try {
+    const { username, email, password }: SignupInput = result.data;
+
     const user = await User.findOne({
       email: email,
     });
@@ -40,6 +42,8 @@ export const signupHandler = async (req: Request, res: Response) => {
 
       res.status(200).send({
         MSG: "Signup Successful.",
+        username: user.username,
+        email: user.email,
       });
     } else {
       res.status(403).send({
@@ -54,10 +58,23 @@ export const signupHandler = async (req: Request, res: Response) => {
   }
 };
 
-export const loginHandler = async (req: Request, res: Response) => {
+export const loginHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const result = loginSchema.safeParse(req.body);
+
+  if (!result.success) {
+    res.status(400).json({
+      status: "error",
+      message: "Invalid input",
+      errors: result.error.flatten().fieldErrors,
+    });
+    return;
+  }
+
   try {
-    const email = req.body.email;
-    const password = req.body.password;
+    const { email, password }: LoginInput = result.data;
 
     const user = await User.findOne({
       email: email,

@@ -7,6 +7,8 @@ export const addContentHandler = async (req: Request, res: Response) => {
     const { type, link, title, tags } = req.body;
     const userId = req.userId;
 
+    console.log(userId)
+
     const existingContent = await Content.findOne({
       link: link,
     });
@@ -35,6 +37,7 @@ export const addContentHandler = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).send({
       msg: "Internal server error.",
+      error: error
     });
   }
 };
