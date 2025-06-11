@@ -1,10 +1,23 @@
 import { Request, Response } from "express";
 import Content from "../models/content.model";
+import { addContentInput, addContentSchema } from "../types/zodSchemas";
 
 // Create content - POST
 export const addContentHandler = async (req: Request, res: Response) => {
+
+   const result = addContentSchema.safeParse(req.body);
+
+   if(!result.success){
+    res.status(400).json({
+      status: "error",
+      message: "Invalid input",
+      errors: result.error.flatten().fieldErrors,
+    });
+    return;
+   }
+
   try {
-    const { type, link, title, tags } = req.body;
+    const { type, link, title }: addContentInput = result.data;
     const userId = req.userId;
 
     console.log(userId)
@@ -25,7 +38,6 @@ export const addContentHandler = async (req: Request, res: Response) => {
       link: link,
       type: type,
       title: title,
-      tags: tags,
       userId: userId
     });
 
@@ -36,7 +48,7 @@ export const addContentHandler = async (req: Request, res: Response) => {
     return;
   } catch (error: any) {
     res.status(500).send({
-      msg: "Internal server error.",
+      msg: "Something went wrong.",
       error: error
     });
   }
@@ -64,5 +76,10 @@ export const getContentHandler = async (req: Request, res: Response) => {
         msg: "Contents fetched successfully",
         contents: contents
     })
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      msg: "Something went wrong.",
+      error: error
+    })
+  }
 };
