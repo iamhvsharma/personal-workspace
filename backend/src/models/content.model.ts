@@ -8,7 +8,7 @@ const contentSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ["Thread", "Article", "Youtube", "Other"],
+    // enum: ["Thread", "Article", "Youtube", "Other"],
     required: true,
   },
   title: {
