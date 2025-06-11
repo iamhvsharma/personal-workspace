@@ -1,10 +1,11 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 
-export const signupHandler = async (req, res) => {
+export const signupHandler = async (req: Request, res: Response) => {
+  
   const { username, email, password } = req.body;
 
   // Zod validation here
@@ -31,13 +32,12 @@ export const signupHandler = async (req, res) => {
 
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 5);
-      const user = new User({
+      const user = await User.create({
         username: username,
         email: email,
         password: hashedPassword,
       });
 
-      await user.save();
       res.status(200).send({
         MSG: "Signup Successful.",
       });
@@ -54,19 +54,20 @@ export const signupHandler = async (req, res) => {
   }
 };
 
-export const loginHandler = async (req, res) => {
+export const loginHandler = async (req: Request, res: Response) => {
   try {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
     const user = await User.findOne({
-      username: username,
+      email: email,
     });
 
     if (!user) {
-      return res.status(403).send({
+      res.status(403).send({
         msg: "Invalid Credentials",
       });
+      return;
     }
 
     const matchPassword = await bcrypt.compare(password, user.password);
@@ -77,14 +78,17 @@ export const loginHandler = async (req, res) => {
         Msg: "Login successful",
         token: token,
       });
+      return;
     } else {
       res.status(403).send({
         MSG: "Invalid Credentials",
       });
+      return;
     }
   } catch (error) {
     res.status(500).send({
       MSG: "Internal Server error!",
     });
+    return;
   }
 };
