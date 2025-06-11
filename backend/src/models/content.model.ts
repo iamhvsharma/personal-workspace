@@ -4,8 +4,10 @@ const contentSchema = new Schema({
   link: {
     type: String,
     required: true,
+    unique: true
   },
   type: {
+    type: String,
     enum: ["Thread", "Article", "Youtube", "Other"],
     required: true,
   },
