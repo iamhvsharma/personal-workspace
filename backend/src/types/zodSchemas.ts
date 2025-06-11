@@ -28,6 +28,11 @@ export const addContentSchema = z.object({
     .max(250, "Title must be atleast of 5 characters"),
 });
 
+export const shareBrainSchema = z.object({
+  share: z.boolean()
+})
+
 export type SignupInput = z.infer<typeof signupSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type addContentInput = z.infer<typeof addContentSchema>;
+export type shareBrainInput = z.infer<typeof shareBrainSchema>;
