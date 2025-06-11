@@ -4,23 +4,22 @@ import { addContentInput, addContentSchema } from "../types/zodSchemas";
 
 // Create content - POST
 export const addContentHandler = async (req: Request, res: Response) => {
+  const result = addContentSchema.safeParse(req.body);
 
-   const result = addContentSchema.safeParse(req.body);
-
-   if(!result.success){
+  if (!result.success) {
     res.status(400).json({
       status: "error",
       message: "Invalid input",
       errors: result.error.flatten().fieldErrors,
     });
     return;
-   }
+  }
 
   try {
     const { type, link, title }: addContentInput = result.data;
     const userId = req.userId;
 
-    console.log(userId)
+    console.log(userId);
 
     const existingContent = await Content.findOne({
       link: link,
@@ -38,7 +37,7 @@ export const addContentHandler = async (req: Request, res: Response) => {
       link: link,
       type: type,
       title: title,
-      userId: userId
+      userId: userId,
     });
 
     res.status(200).json({
@@ -49,7 +48,7 @@ export const addContentHandler = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).send({
       msg: "Something went wrong.",
-      error: error
+      error: error,
     });
   }
 };
@@ -71,15 +70,53 @@ export const getContentHandler = async (req: Request, res: Response) => {
       });
       return;
     }
-    
+
     res.status(200).json({
-        msg: "Contents fetched successfully",
-        contents: contents
-    })
+      msg: "Contents fetched successfully",
+      contents: contents,
+    });
   } catch (error) {
     res.status(500).send({
       msg: "Something went wrong.",
-      error: error
-    })
+      error: error,
+    });
+  }
+};
+
+// Delete Content - DELETE
+
+export const deleteContentHandler = async (req: Request, res: Response) => {
+  const { contentId } = req.body;
+  const userId = req.userId;
+
+  try {
+    const content = await Content.findOne({
+      _id: contentId,
+      userId: userId,
+    });
+
+    if (!content) {
+      res.status(404).send({
+        MSG: " Content not found or you don't have access to delete it",
+        id: contentId,
+      });
+      return;
+    }
+
+    await Content.deleteOne({
+      _id: contentId,
+      userId: userId,
+    });
+
+    res.status(200).send({
+      msg: `Content with ID: ${contentId} is deleted`,
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting content",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+    return;
   }
 };
